@@ -1,4 +1,4 @@
-FROM continuumio/anaconda3:2020.02
+FROM continuumio/anaconda3:2020.07
 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
         build-essential \

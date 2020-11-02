@@ -1,7 +1,6 @@
-chainer==7.2.0
+chainer==7.7.0
 chainercv==0.13.1
-cupy==7.2.0
-keras==2.3.1
-opencv-python==4.2.0.32
-torch==1.4.0
-torchvision==0.5.0
+keras==2.4.3
+opencv-python==4.4.0.44
+torch==1.7.0
+torchvision==0.8.1
