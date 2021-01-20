@@ -2,6 +2,7 @@ name: base
 channels:
   - conda-forge
   - defaults
+  - pytorch
 dependencies:
   - cudatoolkit=10.1.243=h6bb024c_0
   - cudatoolkit-dev=10.1.243=h516909a_3
