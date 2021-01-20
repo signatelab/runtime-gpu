@@ -8,4 +8,6 @@ dependencies:
   - cudnn=7.6.5=cuda10.1_0
   - cupy=8.0.0=py38h68d73f9_2
   - tensorflow-gpu=2.2.0=h0d30ee6_0
+  - pytorch=1.7.0=py3.8_cuda10.1.243_cudnn7.6.3_0
+  - torchvision=0.8.1=py38_cu101
 prefix: /opt/conda
