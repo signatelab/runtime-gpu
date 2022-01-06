@@ -1,4 +1,4 @@
-FROM continuumio/anaconda3:2020.07
+FROM continuumio/anaconda3:2021.11
 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -13,10 +13,15 @@ ENV PYTHONUNBUFFERED=TRUE \
     NVIDIA_DRIVER_CAPABILITIES=utility,compute,graphics \
     LIBRARY_PATH=/opt/conda/pkgs/cuda-toolkit/lib64/stubs \
     PATH=$PATH:/usr/local/nvidia/bin \
-    LD_LIBRARY_PATH=/usr/local/nvidia/lib64
+    LD_LIBRARY_PATH=/usr/local/nvidia/lib64:/opt/conda/lib
 
-COPY base.yml /root
-RUN conda env update -f /root/base.yml
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
-RUN rm -rf /root/.cache
+WORKDIR /tmp
+RUN conda update -n base -c defaults conda
+COPY base.yml .
+RUN conda env update -f base.yml
+COPY requirements.txt .
+RUN pip install -r requirements.txt && rm -rf ~/.cache/pip
+RUN chmod 777 /opt/conda/pkgs/cuda-toolkit
+RUN useradd -m signate
+USER signate
+WORKDIR /opt/ml

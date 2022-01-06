@@ -4,10 +4,9 @@ channels:
   - defaults
   - pytorch
 dependencies:
-  - cudatoolkit=10.1.243=h6bb024c_0
-  - cudatoolkit-dev=10.1.243=h516909a_3
-  - cudnn=7.6.5=cuda10.1_0
-  - tensorflow-gpu=2.2.0=h0d30ee6_0
-  - pytorch=1.7.0=py3.8_cuda10.1.243_cudnn7.6.3_0
-  - torchvision=0.8.1=py38_cu101
+  - cudatoolkit=11.3.1=h2bc3f7f_2
+  - cudatoolkit-dev=11.3.1=py39h3811e60_0
+  - cudnn=8.2.1=cuda11.3_0
+  - pytorch=1.10.1=py3.9_cuda11.3_cudnn8.2.0_0
+  - torchvision=0.11.2=py39_cu113
 prefix: /opt/conda
