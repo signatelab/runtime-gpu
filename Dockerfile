@@ -25,3 +25,6 @@ RUN chmod 777 /opt/conda/pkgs/cuda-toolkit
 RUN useradd -m signate
 USER signate
 WORKDIR /opt/ml
+
+# fix cv2
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/conda/pkgs/cuda-toolkit/nsight-systems-2021.1.3/host-linux-x64/Mesa
