@@ -1,20 +1,4 @@
-FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
-
-WORKDIR /opt
-
-ARG ANACONDA3_VERSION=2022.05
-ARG PYTHON_VERSION=3.9
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        wget \
-        build-essential && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get purge --auto-remove && \
-    apt-get clean
-
-RUN wget -q https://repo.continuum.io/archive/Anaconda3-${ANACONDA3_VERSION}-Linux-x86_64.sh -P ./downloads/ && \
-    bash ./downloads/Anaconda3-${ANACONDA3_VERSION}-Linux-x86_64.sh -b -p /opt/conda && \
-    rm -rf ./downloads
+FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04
 
 ENV PYTHONUNBUFFERED=TRUE \
     PYTHONDONTWRITEBYTECODE=TRUE \
@@ -22,9 +6,32 @@ ENV PYTHONUNBUFFERED=TRUE \
     NVIDIA_DRIVER_CAPABILITIES=utility,compute,graphics \
     PATH=$PATH:/opt/conda/bin \
     DEBIAN_FRONTEND=noninteractive
+    
+WORKDIR /opt
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        wget \
+        build-essential \
+        libnvinfer8 \
+        libnvinfer-plugin8 && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge --auto-remove && \
+    apt-get clean
+
+RUN cd /usr/lib/x86_64-linux-gnu && \
+    ln -s libnvinfer.so.8 libnvinfer.so.7 && \
+    ln -s libnvinfer_plugin.so.8 libnvinfer_plugin.so.7
+
+ARG ANACONDA3_VERSION=2022.10
+ARG PYTHON_VERSION=3.9
+
+RUN wget -q https://repo.continuum.io/archive/Anaconda3-${ANACONDA3_VERSION}-Linux-x86_64.sh -P ./downloads/ && \
+    bash ./downloads/Anaconda3-${ANACONDA3_VERSION}-Linux-x86_64.sh -b -p /opt/conda && \
+    rm -rf ./downloads
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt && \
+RUN pip install -U pip && \
+    pip install -r requirements.txt && \
     rm -rf ~/.cache/pip \
     rm -f requirements.txt
 
@@ -124,6 +131,21 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O openc
     make install && \
     ldconfig && \
     rm -rf /opt/opencv-${OPENCV_VERSION} && rm -rf /opt/opencv_contrib-${OPENCV_VERSION}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tzdata \
+        locales \
+        apt-utils && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge --auto-remove && \
+    apt-get clean
+
+RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    locale-gen ja_JP.UTF-8
+
+ENV TZ="Asia/Tokyo" \
+    LANG=ja_JP.UTF-8 \
+    LANGUAGE=ja_JP:en
 
 RUN useradd -m signate
 USER signate
