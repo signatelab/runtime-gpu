@@ -1,0 +1,22 @@
+FROM signate/runtime-gpu:2022.10
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge --auto-remove && \
+    apt-get clean
+
+RUN git clone https://github.com/aistairc/aiaccel.git && \
+    pip install -U pip && \
+    pip install ./aiaccel && \
+    rm -rf ~/.cache/pip && \
+    rm -rf aiaccel
+
+RUN mkdir -p /opt/torch && \
+    chmod 777 /opt/torch
+
+ENV TORCH_HOME=/opt/torch
+
+USER signate
