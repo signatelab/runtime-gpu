@@ -34,7 +34,7 @@ e600d6e89eb3        signate/runtime-gpu   "bash"              5 minutes ago     
 ```
 
 ### コンテナの再開
-停止したコンテナを再開させたい場合は、 `docker start -i [COMTAINER ID]` で再開させることができます。
+停止したコンテナを再開させたい場合は、 `docker start -i [CONTAINER ID]` で再開させることができます。
 
 例：
 ```
@@ -46,7 +46,7 @@ $ docker start -i e600d6e89eb3
 ```
 
 ### コンテナの削除
-コンテナの削除を行いたい場合は、 `docker rm [COMTAINER ID]` で削除することができます。
+コンテナの削除を行いたい場合は、 `docker rm [CONTAINER ID]` で削除することができます。
 
 例：
 ```
